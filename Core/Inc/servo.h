@@ -6,8 +6,8 @@
 #define SERVO_PWM_CHANNEL			TIM_CHANNEL_1
 #define SERVO_ANGLE_OFFSET		(float)0
 	
-#define ANGLE_RELEASE			(float)-20
-#define ANGLE_PRESS				(float)-5
+#define ANGLE_RELEASE			(float)-22
+#define ANGLE_PRESS				(float)-8
 	
 typedef struct
 {

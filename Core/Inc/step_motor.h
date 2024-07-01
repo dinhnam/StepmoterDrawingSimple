@@ -2,16 +2,18 @@
 #define STEP_MOTOR_H
 #include "stm32f1xx_hal.h"
 
-#define PWM_STEP_FREQ				(int)5000
+#define PWM_STEP_FREQ				(int)10000
 #define PI									(float)3.14159265
-#define STEP_ANGLE					(float)9.0
-#define STEP_DIV						(float)0.05 //mm
+#define ANGLE_STEP					(float)18 //degree
+#define SCREW_PITCH					(float)4 //mm
+#define	STEP_NUMBER					(int)64
 #define MOVE_LENGTH_MAX			(float)35 //mm
-#define STEP_NUM_MAX				MOVE_LENGTH_MAX/STEP_DIV
+#define STEP_PITCH					(float)(SCREW_PITCH*ANGLE_STEP/360) //mm
+#define MICRO_STEP_PITCH		(float)(4*STEP_PITCH/STEP_NUMBER)
+#define STEP_NUM_MAX				(int)(MOVE_LENGTH_MAX/MICRO_STEP_PITCH)
 #define STEP_NUM_MIN				0
-#define TIM_COUNTER_TIME		(int)10 //us
-#define STEP_TIME_MIN				(float)1.6//ms
-#define STEP_ON_TIME_MIN		(float)1.5//ms
+#define TIM_COUNTER_TIME		(int)5 //us
+#define STEP_TIME_MIN				500//us
 
 #define STEPMOTOR1_PORT			GPIOB
 #define STEPMOTOR1_AL_PIN		GPIO_PIN_13
@@ -35,7 +37,7 @@ typedef enum
 
 typedef enum
 {
-	STEP1 = 1,
+	STEP1 = 0,
 	STEP1A,
 	STEP2,
 	STEP2A,
@@ -72,14 +74,14 @@ typedef struct{
 	uint32_t 			pwm_channel[2];
 	GPIO_TypeDef *port;
 	uint32_t 			pin[2];
+		TIM_TypeDef * timer;
+	__IO uint8_t 	status;
 	int 					step;
 	int 					step_count;
 	int 					step_count_set;
-	uint8_t				step_active;
-	float					angle;
-	uint8_t 			rotate_dir;
-	TIM_TypeDef * timer;
-	__IO uint8_t 	status;
+	float					step_pitch;
+	int 					step_num_max;
+	int 					step_num_min;
 }STEPMOTOR_STRUCT;
 
 extern STEPMOTOR_STRUCT stepmotor1, stepmotor2;

@@ -208,7 +208,7 @@ int main(void)
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
-	printf("CNC starting..\n");
+	printf("CNC Mini Starting..\n");
 	servo_init();
 	stepmotor_init();
 	HAL_Delay(200);
