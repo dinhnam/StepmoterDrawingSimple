@@ -3,7 +3,7 @@
 <H3>Image</H3>
 <img src="https://github.com/dinhnam/StepmoterDrawingSimple/blob/master/Images/cnc_mini.jpg" alt="drawing cnc schematic">
 <H3>Command UART</H3>
-<p style="font-family:courier;">MXY X_VAL Y_VAL</p><br>
-<p>Move pen to X-Axis and Y-Axis positions </p><br>
-<p style="font-family:courier;">PEN P_VAL</p><br>
+<p>MXY X_VAL Y_VAL</p>
+<p>Move pen to X-Axis and Y-Axis positions </p>
+<p>PEN P_VAL</p>
 <p>P_VAL = 1 => pen up. P_VAL = 0 => pen down.</p>
