@@ -80,8 +80,6 @@ typedef struct{
 	uint8_t 			rotate_dir;
 	TIM_TypeDef * timer;
 	__IO uint8_t 	status;
-	int 					offset_sum;
-	int 					diff_sum;
 }STEPMOTOR_STRUCT;
 
 extern STEPMOTOR_STRUCT stepmotor1, stepmotor2;

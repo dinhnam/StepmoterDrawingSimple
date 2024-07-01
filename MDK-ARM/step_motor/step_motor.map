@@ -2126,18 +2126,18 @@ Image Symbol Table
     .data                                    0x20000018   Section        4  stdio_streams.o(.data)
     .data                                    0x2000001c   Section        4  stdio_streams.o(.data)
     .data                                    0x20000020   Section        4  stdio_streams.o(.data)
-    .bss                                     0x20000024   Section      136  step_motor.o(.bss)
-    .bss                                     0x200000ac   Section       16  servo.o(.bss)
-    .bss                                     0x200000bc   Section      648  main.o(.bss)
-    .bss                                     0x20000344   Section       84  stdio_streams.o(.bss)
-    .bss                                     0x20000398   Section       84  stdio_streams.o(.bss)
-    .bss                                     0x200003ec   Section       84  stdio_streams.o(.bss)
-    .bss                                     0x20000440   Section       96  libspace.o(.bss)
-    HEAP                                     0x200004a0   Section      512  startup_stm32f103xb.o(HEAP)
-    Heap_Mem                                 0x200004a0   Data         512  startup_stm32f103xb.o(HEAP)
-    STACK                                    0x200006a0   Section     1024  startup_stm32f103xb.o(STACK)
-    Stack_Mem                                0x200006a0   Data        1024  startup_stm32f103xb.o(STACK)
-    __initial_sp                             0x20000aa0   Data           0  startup_stm32f103xb.o(STACK)
+    .bss                                     0x20000024   Section      120  step_motor.o(.bss)
+    .bss                                     0x2000009c   Section       16  servo.o(.bss)
+    .bss                                     0x200000ac   Section      648  main.o(.bss)
+    .bss                                     0x20000334   Section       84  stdio_streams.o(.bss)
+    .bss                                     0x20000388   Section       84  stdio_streams.o(.bss)
+    .bss                                     0x200003dc   Section       84  stdio_streams.o(.bss)
+    .bss                                     0x20000430   Section       96  libspace.o(.bss)
+    HEAP                                     0x20000490   Section      512  startup_stm32f103xb.o(HEAP)
+    Heap_Mem                                 0x20000490   Data         512  startup_stm32f103xb.o(HEAP)
+    STACK                                    0x20000690   Section     1024  startup_stm32f103xb.o(STACK)
+    Stack_Mem                                0x20000690   Data        1024  startup_stm32f103xb.o(STACK)
+    __initial_sp                             0x20000a90   Data           0  startup_stm32f103xb.o(STACK)
 
     Global Symbols
 
@@ -2551,22 +2551,22 @@ Image Symbol Table
     __aeabi_stdin                            0x20000018   Data           4  stdio_streams.o(.data)
     __aeabi_stdout                           0x2000001c   Data           4  stdio_streams.o(.data)
     __aeabi_stderr                           0x20000020   Data           4  stdio_streams.o(.data)
-    stepmotor1                               0x20000024   Data          68  step_motor.o(.bss)
-    stepmotor2                               0x20000068   Data          68  step_motor.o(.bss)
-    servo                                    0x200000ac   Data          16  servo.o(.bss)
-    htim1                                    0x200000bc   Data          72  main.o(.bss)
-    htim2                                    0x20000104   Data          72  main.o(.bss)
-    htim3                                    0x2000014c   Data          72  main.o(.bss)
-    htim4                                    0x20000194   Data          72  main.o(.bss)
-    huart1                                   0x200001dc   Data          72  main.o(.bss)
-    bufferRx                                 0x20000224   Data         256  main.o(.bss)
-    cmdType                                  0x20000324   Data          16  main.o(.bss)
-    param_value                              0x20000334   Data          16  main.o(.bss)
-    __stdin                                  0x20000344   Data          84  stdio_streams.o(.bss)
-    __stdout                                 0x20000398   Data          84  stdio_streams.o(.bss)
-    __stderr                                 0x200003ec   Data          84  stdio_streams.o(.bss)
-    __libspace_start                         0x20000440   Data          96  libspace.o(.bss)
-    __temporary_stack_top$libspace           0x200004a0   Data           0  libspace.o(.bss)
+    stepmotor1                               0x20000024   Data          60  step_motor.o(.bss)
+    stepmotor2                               0x20000060   Data          60  step_motor.o(.bss)
+    servo                                    0x2000009c   Data          16  servo.o(.bss)
+    htim1                                    0x200000ac   Data          72  main.o(.bss)
+    htim2                                    0x200000f4   Data          72  main.o(.bss)
+    htim3                                    0x2000013c   Data          72  main.o(.bss)
+    htim4                                    0x20000184   Data          72  main.o(.bss)
+    huart1                                   0x200001cc   Data          72  main.o(.bss)
+    bufferRx                                 0x20000214   Data         256  main.o(.bss)
+    cmdType                                  0x20000314   Data          16  main.o(.bss)
+    param_value                              0x20000324   Data          16  main.o(.bss)
+    __stdin                                  0x20000334   Data          84  stdio_streams.o(.bss)
+    __stdout                                 0x20000388   Data          84  stdio_streams.o(.bss)
+    __stderr                                 0x200003dc   Data          84  stdio_streams.o(.bss)
+    __libspace_start                         0x20000430   Data          96  libspace.o(.bss)
+    __temporary_stack_top$libspace           0x20000490   Data           0  libspace.o(.bss)
 
 
 
@@ -2902,7 +2902,7 @@ Memory Map of the image
     0x08006280   0x08006280   0x00000110   Data   RO         3556    locale$$data        c_w.l(lc_ctype_c.o)
 
 
-    Execution Region RW_IRAM1 (Exec base: 0x20000000, Load base: 0x08006390, Size: 0x00000aa0, Max: 0x00005000, ABSOLUTE)
+    Execution Region RW_IRAM1 (Exec base: 0x20000000, Load base: 0x08006390, Size: 0x00000a90, Max: 0x00005000, ABSOLUTE)
 
     Exec Addr    Load Addr    Size         Type   Attr      Idx    E Section Name        Object
 
@@ -2912,15 +2912,15 @@ Memory Map of the image
     0x20000018   0x080063a8   0x00000004   Data   RW         3239    .data               c_w.l(stdio_streams.o)
     0x2000001c   0x080063ac   0x00000004   Data   RW         3240    .data               c_w.l(stdio_streams.o)
     0x20000020   0x080063b0   0x00000004   Data   RW         3241    .data               c_w.l(stdio_streams.o)
-    0x20000024        -       0x00000088   Zero   RW           34    .bss                step_motor.o
-    0x200000ac        -       0x00000010   Zero   RW          319    .bss                servo.o
-    0x200000bc        -       0x00000288   Zero   RW          375    .bss                main.o
-    0x20000344        -       0x00000054   Zero   RW         3236    .bss                c_w.l(stdio_streams.o)
-    0x20000398        -       0x00000054   Zero   RW         3237    .bss                c_w.l(stdio_streams.o)
-    0x200003ec        -       0x00000054   Zero   RW         3238    .bss                c_w.l(stdio_streams.o)
-    0x20000440        -       0x00000060   Zero   RW         3333    .bss                c_w.l(libspace.o)
-    0x200004a0        -       0x00000200   Zero   RW            2    HEAP                startup_stm32f103xb.o
-    0x200006a0        -       0x00000400   Zero   RW            1    STACK               startup_stm32f103xb.o
+    0x20000024        -       0x00000078   Zero   RW           34    .bss                step_motor.o
+    0x2000009c        -       0x00000010   Zero   RW          319    .bss                servo.o
+    0x200000ac        -       0x00000288   Zero   RW          375    .bss                main.o
+    0x20000334        -       0x00000054   Zero   RW         3236    .bss                c_w.l(stdio_streams.o)
+    0x20000388        -       0x00000054   Zero   RW         3237    .bss                c_w.l(stdio_streams.o)
+    0x200003dc        -       0x00000054   Zero   RW         3238    .bss                c_w.l(stdio_streams.o)
+    0x20000430        -       0x00000060   Zero   RW         3333    .bss                c_w.l(libspace.o)
+    0x20000490        -       0x00000200   Zero   RW            2    HEAP                startup_stm32f103xb.o
+    0x20000690        -       0x00000400   Zero   RW            1    STACK               startup_stm32f103xb.o
 
 
 ==============================================================================
@@ -2936,7 +2936,7 @@ Image component sizes
        192         24         23          0          0       5110   retarget_io.o
        280         62          0          0         16       2962   servo.o
         64         26        236          0       1536        788   startup_stm32f103xb.o
-      1756        120          0          0        136     441010   step_motor.o
+      1756        120          0          0        120     440978   step_motor.o
        164         28          0         12          0       5729   stm32f1xx_hal.o
        198         14          0          0          0      28815   stm32f1xx_hal_cortex.o
        490         34          0          0          0       2824   stm32f1xx_hal_gpio.o
@@ -2949,7 +2949,7 @@ Image component sizes
          2          0         24          4          0       1055   system_stm32f1xx.o
 
     ----------------------------------------------------------------------
-      9232        758        340         24       2336     530051   Object Totals
+      9232        758        340         24       2320     530019   Object Totals
          0          0         32          0          0          0   (incl. Generated)
         22          0          7          0          0          0   (incl. Padding)
 
@@ -3092,14 +3092,14 @@ Image component sizes
 
       Code (inc. data)   RO Data    RW Data    ZI Data      Debug   
 
-     24396       1684       1092         36       2684     529247   Grand Totals
-     24396       1684       1092         36       2684     529247   ELF Image Totals
+     24396       1684       1092         36       2668     529215   Grand Totals
+     24396       1684       1092         36       2668     529215   ELF Image Totals
      24396       1684       1092         36          0          0   ROM Totals
 
 ==============================================================================
 
     Total RO  Size (Code + RO Data)                25488 (  24.89kB)
-    Total RW  Size (RW Data + ZI Data)              2720 (   2.66kB)
+    Total RW  Size (RW Data + ZI Data)              2704 (   2.64kB)
     Total ROM Size (Code + RO Data + RW Data)      25524 (  24.93kB)
 
 ==============================================================================

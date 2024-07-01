@@ -28,7 +28,7 @@ void servo_pen_release(void)
 	if(servo.anlge > ANGLE_RELEASE)
 	{
 //		servo_rotate(&servo, ANGLE_RELEASE);
-//		HAL_Delay(30);
+//		HAL_Delay(40);
 		for(servo.anlge = ANGLE_PRESS; servo.anlge>=  ANGLE_RELEASE; servo.anlge--)
 		{
 			servo_rotate(&servo, servo.anlge);
@@ -42,7 +42,7 @@ void servo_pen_press(void)
 	if(servo.anlge < ANGLE_PRESS)
 	{
 //		servo_rotate(&servo, ANGLE_PRESS);
-//		HAL_Delay(30);
+//		HAL_Delay(40);
 		for(servo.anlge = ANGLE_RELEASE; servo.anlge <=  ANGLE_PRESS; servo.anlge++)
 		{
 			servo_rotate(&servo, servo.anlge);
