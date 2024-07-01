@@ -242,7 +242,7 @@ void stepmotor_init(void)
 		stepmotor_set_step(&stepmotor2, i);
 		HAL_Delay(10);
 	}
-	
+	//test
 	stepmotor_stop(&stepmotor1); 
 	stepmotor_stop(&stepmotor2);
 	HAL_Delay(500);
