@@ -10,4 +10,4 @@
 <p>CIRCLE x y R N</p>
 <p>Draw a cirlce have center is (x,y) , radial is R, N is number of lines that make up a circle </p>
 <p>PEN p_val</p>
-<p>p_val = 1 => pen up. p_val = 0 => pen down.</p>
+<p>p_val = 0 => pen up. p_val = 1 => pen down.</p>
