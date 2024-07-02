@@ -3,7 +3,7 @@
 <title>Static Call Graph - [step_motor\step_motor.axf]</title></head>
 <body><HR>
 <H1>Static Call Graph for image step_motor\step_motor.axf</H1><HR>
-<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 5060960: Last Updated: Tue Jul 02 02:16:02 2024
+<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 5060960: Last Updated: Wed Jul 03 00:23:21 2024
 <BR><P>
 <H3>Maximum Stack Usage =        572 bytes + Unknown(Functions without stacksize, Cycles, Untraceable Function Pointers)</H3><H3>
 Call chain for Maximum Stack Depth:</H3>
@@ -1288,7 +1288,7 @@ Global Symbols
 <BR>[Address Reference Count : 1]<UL><LI> startup_stm32f103xb.o(RESET)
 </UL>
 <P><STRONG><a name="[31]"></a>TIM3_IRQHandler</STRONG> (Thumb, 42 bytes, Stack size 8 bytes, stm32f1xx_it.o(i.TIM3_IRQHandler))
-<BR><BR>[Stack]<UL><LI>Max Depth = 40<LI>Call Chain = TIM3_IRQHandler &rArr; stepmotor_step_handle_it_cc &rArr; stepmotor_increase_step &rArr; stepmotor_set_step &rArr; BLH
+<BR><BR>[Stack]<UL><LI>Max Depth = 48<LI>Call Chain = TIM3_IRQHandler &rArr; stepmotor_step_handle_it_update &rArr; stepmotor_increase_step &rArr; stepmotor_set_step &rArr; BLH
 </UL>
 <BR>[Calls]<UL><LI><a href="#[d7]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;stepmotor_step_handle_it_update
 <LI><a href="#[d8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;stepmotor_step_handle_it_cc
@@ -1296,7 +1296,7 @@ Global Symbols
 <BR>[Address Reference Count : 1]<UL><LI> startup_stm32f103xb.o(RESET)
 </UL>
 <P><STRONG><a name="[32]"></a>TIM4_IRQHandler</STRONG> (Thumb, 42 bytes, Stack size 8 bytes, stm32f1xx_it.o(i.TIM4_IRQHandler))
-<BR><BR>[Stack]<UL><LI>Max Depth = 40<LI>Call Chain = TIM4_IRQHandler &rArr; stepmotor_step_handle_it_cc &rArr; stepmotor_increase_step &rArr; stepmotor_set_step &rArr; BLH
+<BR><BR>[Stack]<UL><LI>Max Depth = 48<LI>Call Chain = TIM4_IRQHandler &rArr; stepmotor_step_handle_it_update &rArr; stepmotor_increase_step &rArr; stepmotor_set_step &rArr; BLH
 </UL>
 <BR>[Calls]<UL><LI><a href="#[d7]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;stepmotor_step_handle_it_update
 <LI><a href="#[d8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;stepmotor_step_handle_it_cc
@@ -1706,23 +1706,23 @@ Global Symbols
 <BR>[Called By]<UL><LI><a href="#[fa]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;dist
 </UL>
 
-<P><STRONG><a name="[113]"></a>stepmotor_decrease_step</STRONG> (Thumb, 26 bytes, Stack size 0 bytes, step_motor.o(i.stepmotor_decrease_step))
+<P><STRONG><a name="[113]"></a>stepmotor_decrease_step</STRONG> (Thumb, 24 bytes, Stack size 0 bytes, step_motor.o(i.stepmotor_decrease_step))
 <BR><BR>[Stack]<UL><LI>Max Depth = 32<LI>Call Chain = stepmotor_decrease_step &rArr; stepmotor_set_step &rArr; BLH
 </UL>
 <BR>[Calls]<UL><LI><a href="#[114]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;stepmotor_set_step
 </UL>
-<BR>[Called By]<UL><LI><a href="#[d8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;stepmotor_step_handle_it_cc
+<BR>[Called By]<UL><LI><a href="#[d7]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;stepmotor_step_handle_it_update
 </UL>
 
-<P><STRONG><a name="[115]"></a>stepmotor_increase_step</STRONG> (Thumb, 28 bytes, Stack size 0 bytes, step_motor.o(i.stepmotor_increase_step))
+<P><STRONG><a name="[115]"></a>stepmotor_increase_step</STRONG> (Thumb, 26 bytes, Stack size 0 bytes, step_motor.o(i.stepmotor_increase_step))
 <BR><BR>[Stack]<UL><LI>Max Depth = 32<LI>Call Chain = stepmotor_increase_step &rArr; stepmotor_set_step &rArr; BLH
 </UL>
 <BR>[Calls]<UL><LI><a href="#[114]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;stepmotor_set_step
 </UL>
-<BR>[Called By]<UL><LI><a href="#[d8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;stepmotor_step_handle_it_cc
+<BR>[Called By]<UL><LI><a href="#[d7]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;stepmotor_step_handle_it_update
 </UL>
 
-<P><STRONG><a name="[104]"></a>stepmotor_init</STRONG> (Thumb, 516 bytes, Stack size 48 bytes, step_motor.o(i.stepmotor_init))
+<P><STRONG><a name="[104]"></a>stepmotor_init</STRONG> (Thumb, 524 bytes, Stack size 48 bytes, step_motor.o(i.stepmotor_init))
 <BR><BR>[Stack]<UL><LI>Max Depth = 240<LI>Call Chain = stepmotor_init &rArr; sin &rArr; __ieee754_rem_pio2 &rArr; __aeabi_dmul
 </UL>
 <BR>[Calls]<UL><LI><a href="#[ad]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_Delay
@@ -1810,31 +1810,28 @@ Global Symbols
 <BR>[Called By]<UL><LI><a href="#[117]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;stepmotor_set_step_num
 </UL>
 
-<P><STRONG><a name="[d8]"></a>stepmotor_step_handle_it_cc</STRONG> (Thumb, 20 bytes, Stack size 0 bytes, step_motor.o(i.stepmotor_step_handle_it_cc))
-<BR><BR>[Stack]<UL><LI>Max Depth = 32<LI>Call Chain = stepmotor_step_handle_it_cc &rArr; stepmotor_increase_step &rArr; stepmotor_set_step &rArr; BLH
+<P><STRONG><a name="[d8]"></a>stepmotor_step_handle_it_cc</STRONG> (Thumb, 2 bytes, Stack size 0 bytes, step_motor.o(i.stepmotor_step_handle_it_cc))
+<BR><BR>[Called By]<UL><LI><a href="#[32]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;TIM4_IRQHandler
+<LI><a href="#[31]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;TIM3_IRQHandler
 </UL>
-<BR>[Calls]<UL><LI><a href="#[115]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;stepmotor_increase_step
+
+<P><STRONG><a name="[d7]"></a>stepmotor_step_handle_it_update</STRONG> (Thumb, 46 bytes, Stack size 8 bytes, step_motor.o(i.stepmotor_step_handle_it_update))
+<BR><BR>[Stack]<UL><LI>Max Depth = 40<LI>Call Chain = stepmotor_step_handle_it_update &rArr; stepmotor_increase_step &rArr; stepmotor_set_step &rArr; BLH
+</UL>
+<BR>[Calls]<UL><LI><a href="#[116]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;stepmotor_stop
+<LI><a href="#[11b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;stepmotor_step_stop_it
+<LI><a href="#[115]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;stepmotor_increase_step
 <LI><a href="#[113]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;stepmotor_decrease_step
 </UL>
 <BR>[Called By]<UL><LI><a href="#[32]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;TIM4_IRQHandler
 <LI><a href="#[31]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;TIM3_IRQHandler
 </UL>
 
-<P><STRONG><a name="[d7]"></a>stepmotor_step_handle_it_update</STRONG> (Thumb, 28 bytes, Stack size 8 bytes, step_motor.o(i.stepmotor_step_handle_it_update))
-<BR><BR>[Stack]<UL><LI>Max Depth = 24<LI>Call Chain = stepmotor_step_handle_it_update &rArr; stepmotor_stop &rArr; BFL
-</UL>
-<BR>[Calls]<UL><LI><a href="#[116]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;stepmotor_stop
-<LI><a href="#[11b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;stepmotor_step_stop_it
-</UL>
-<BR>[Called By]<UL><LI><a href="#[32]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;TIM4_IRQHandler
-<LI><a href="#[31]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;TIM3_IRQHandler
-</UL>
-
-<P><STRONG><a name="[11a]"></a>stepmotor_step_start_it</STRONG> (Thumb, 44 bytes, Stack size 0 bytes, step_motor.o(i.stepmotor_step_start_it))
+<P><STRONG><a name="[11a]"></a>stepmotor_step_start_it</STRONG> (Thumb, 34 bytes, Stack size 0 bytes, step_motor.o(i.stepmotor_step_start_it))
 <BR><BR>[Called By]<UL><LI><a href="#[117]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;stepmotor_set_step_num
 </UL>
 
-<P><STRONG><a name="[11b]"></a>stepmotor_step_stop_it</STRONG> (Thumb, 38 bytes, Stack size 0 bytes, step_motor.o(i.stepmotor_step_stop_it))
+<P><STRONG><a name="[11b]"></a>stepmotor_step_stop_it</STRONG> (Thumb, 28 bytes, Stack size 0 bytes, step_motor.o(i.stepmotor_step_stop_it))
 <BR><BR>[Called By]<UL><LI><a href="#[d7]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;stepmotor_step_handle_it_update
 </UL>
 

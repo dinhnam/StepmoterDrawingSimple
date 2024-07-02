@@ -53,7 +53,7 @@ void stepmotor_stop(STEPMOTOR_STRUCT *stepmotor)
 	BFL(stepmotor);
 }
 
-void stepmotor_set_step(STEPMOTOR_STRUCT *stepmotor, uint8_t step_value)
+void stepmotor_set_step(STEPMOTOR_STRUCT *stepmotor, int step_value)
 {
 	if(step_value < STEP_NUMBER/4)
 	{
@@ -103,7 +103,6 @@ void stepmotor_step_start_it(STEPMOTOR_STRUCT *stepmotor)
 {
 	stepmotor->timer->CNT = 0;
 	stepmotor->timer->DIER |= TIM_IT_UPDATE;
-	stepmotor->timer->DIER |= TIM_IT_CC1;
 	stepmotor->timer->CR1 |= TIM_CR1_CEN;
 	stepmotor->status = MOTOR_RUN;
 }
@@ -111,7 +110,6 @@ void stepmotor_step_start_it(STEPMOTOR_STRUCT *stepmotor)
 void stepmotor_step_stop_it(STEPMOTOR_STRUCT *stepmotor)
 {
 	stepmotor->timer->DIER &= ~TIM_IT_UPDATE;
-	stepmotor->timer->DIER &= ~TIM_IT_CC1;
 	stepmotor->timer->CR1 &= ~TIM_CR1_CEN;
 	stepmotor->status = MOTOR_STOP;
 }
@@ -136,14 +134,6 @@ void stepmotor_set_step_change(STEPMOTOR_STRUCT *stepmotor, int step_div, float 
 void stepmotor_step_handle_it_update(STEPMOTOR_STRUCT *stepmotor)
 {
 	stepmotor_stop(stepmotor);
-	if(stepmotor->step_count == stepmotor->step_count_set)
-	{
-		stepmotor_step_stop_it(stepmotor);
-	}
-}
-
-void stepmotor_step_handle_it_cc(STEPMOTOR_STRUCT *stepmotor)
-{
 	if(stepmotor->step_count != stepmotor->step_count_set)
 	{
 		if(stepmotor->step_count > stepmotor->step_count_set)
@@ -155,13 +145,22 @@ void stepmotor_step_handle_it_cc(STEPMOTOR_STRUCT *stepmotor)
 				stepmotor_increase_step(stepmotor);
 		}
 	}
+	else
+	{
+		stepmotor_step_stop_it(stepmotor);
+	}
+}
+
+void stepmotor_step_handle_it_cc(STEPMOTOR_STRUCT *stepmotor)
+{
+
 }
 
 void stepmotor_init(void)
 {
 	
 	TIM1->PSC = 0;
-	TIM1->ARR = SystemCoreClock/PWM_STEP_FREQ-1;
+	TIM1->ARR = SystemCoreClock/PWM_MOTOR_FREQ-1;
 	TIM1->CCR1 = 0;
 	TIM1->CCR2 = 0;
 	TIM1->CCR3 = 0;
@@ -196,11 +195,11 @@ void stepmotor_init(void)
 	stepmotor2.id = 2;
 	stepmotor2.timer = TIM4;
 	stepmotor2.port = STEPMOTOR1_PORT;
-	stepmotor2.pin[PIN_B2] = STEPMOTOR2_AL_PIN;
-	stepmotor2.pin[PIN_A2] = STEPMOTOR2_BL_PIN;
+	stepmotor2.pin[PIN_A2] = STEPMOTOR2_AL_PIN;
+	stepmotor2.pin[PIN_B2] = STEPMOTOR2_BL_PIN;
 	stepmotor2.pwm_tim = TIM1;
-	stepmotor2.pwm_channel[PWM_B1] = TIM_CHANNEL_4;
-	stepmotor2.pwm_channel[PWM_A1] = TIM_CHANNEL_3;
+	stepmotor2.pwm_channel[PWM_A1] = PWM2_AH_CHANNEL;
+	stepmotor2.pwm_channel[PWM_B1] = PWM2_BH_CHANNEL;
 	stepmotor2.step_num_max = STEP_NUM_MAX;
 	stepmotor2.step_num_min = 0;
 	stepmotor2.step_pitch = MICRO_STEP_PITCH;
@@ -217,15 +216,13 @@ void stepmotor_init(void)
 	{
 		stepmotor_set_step(&stepmotor1, i);
 		stepmotor_set_step(&stepmotor2, i);
-		HAL_Delay(10);
+		HAL_Delay(5);
 	}
-	
-	
 	for(int i=STEPNUM-1; i>=1; i--)
 	{
 		stepmotor_set_step(&stepmotor1, i);
 		stepmotor_set_step(&stepmotor2, i);
-		HAL_Delay(10);
+		HAL_Delay(5);
 	}
 	//test
 	stepmotor_stop(&stepmotor1); 
@@ -255,6 +252,7 @@ void stepmotor_move_xy(float x, float y)
 	
 	step1_diff = step1_diff<0?-step1_diff:step1_diff;
 	step2_diff = step2_diff<0?-step2_diff:step2_diff;
+	
 	if(step1_diff < step2_diff)
 	{
 		step_time2 = STEP_TIME_MIN;

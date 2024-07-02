@@ -2,27 +2,32 @@
 #define STEP_MOTOR_H
 #include "stm32f1xx_hal.h"
 
-#define PWM_STEP_FREQ				(int)10000
+#define PWM_MOTOR_FREQ				(int)10000
 #define PI									(float)3.14159265
 #define ANGLE_STEP					(float)18 //degree
 #define SCREW_PITCH					(float)4 //mm
-#define	STEP_NUMBER					(int)64
+#define	STEP_NUMBER					(int)256
 #define MOVE_LENGTH_MAX			(float)35 //mm
 #define STEP_PITCH					(float)(SCREW_PITCH*ANGLE_STEP/360) //mm
 #define MICRO_STEP_PITCH		(float)(4*STEP_PITCH/STEP_NUMBER)
 #define STEP_NUM_MAX				(int)(MOVE_LENGTH_MAX/MICRO_STEP_PITCH)
-#define STEP_NUM_MIN				0
-#define TIM_COUNTER_TIME		(int)5 //us
-#define STEP_TIME_MIN				500//us
+#define STEP_NUM_MIN				(int)0
+#define TIM_COUNTER_TIME		(int)10 //us
+#define STEP_TIME_MIN				(int)100//us
 
 #define STEPMOTOR1_PORT			GPIOB
 #define STEPMOTOR1_AL_PIN		GPIO_PIN_13
 #define STEPMOTOR1_BL_PIN		GPIO_PIN_12
 
 #define STEPMOTOR2_PORT			GPIOB
-#define STEPMOTOR2_AL_PIN		GPIO_PIN_15
-#define STEPMOTOR2_BL_PIN		GPIO_PIN_14
+#define STEPMOTOR2_AL_PIN		GPIO_PIN_14
+#define STEPMOTOR2_BL_PIN		GPIO_PIN_15
 
+#define PWM1_AH_CHANNEL			TIM_CHANNEL_2
+#define PWM1_BH_CHANNEL			TIM_CHANNEL_1
+
+#define PWM2_AH_CHANNEL			TIM_CHANNEL_3
+#define PWM2_BH_CHANNEL			TIM_CHANNEL_4
 typedef enum
 {
 	PIN_A2 = 0,
@@ -87,7 +92,7 @@ typedef struct{
 extern STEPMOTOR_STRUCT stepmotor1, stepmotor2;
 
 void stepmotor_step_stop(STEPMOTOR_STRUCT *stepmotor);
-void stepmotor_set_step(STEPMOTOR_STRUCT *stepmotor, uint8_t step);
+void stepmotor_set_step(STEPMOTOR_STRUCT *stepmotor, int step);
 void stepmotor_increase_step(STEPMOTOR_STRUCT *stepmotor);
 void stepmotor_decrease_step(STEPMOTOR_STRUCT *stepmotor);
 void stepmotor_set_step_time(STEPMOTOR_STRUCT *stepmotor, float step_time_us);
