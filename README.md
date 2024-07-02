@@ -2,6 +2,8 @@
 <img src="https://github.com/dinhnam/StepmoterDrawingSimple/blob/master/Images/schematic.png" alt="drawing cnc schematic">
 <H3>BOM</H3>
 <p>KIT STM32f103c8t6<br>Module H bridge driver mini L298<br>Servo sg90<br>Two step motor bipolar 5v<br>Module USB to UART for communicate with computer</p>
+<H3>Tools and Software</H3>
+<p>µVision Editor with KeilC Framework for STM32 MCU</p>
 <H3>Image</H3>
 <img src="https://github.com/dinhnam/StepmoterDrawingSimple/blob/master/Images/cnc_mini.jpg" alt="drawing cnc schematic">
 <H3>Command UART</H3>
