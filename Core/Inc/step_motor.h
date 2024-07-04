@@ -2,18 +2,18 @@
 #define STEP_MOTOR_H
 #include "stm32f1xx_hal.h"
 
-#define PWM_MOTOR_FREQ				(int)10000
+#define PWM_MOTOR_FREQ			(int)10000
 #define PI									(float)3.14159265
 #define ANGLE_STEP					(float)18 //degree
 #define SCREW_PITCH					(float)4 //mm
-#define	STEP_NUMBER					(int)256
-#define MOVE_LENGTH_MAX			(float)35 //mm
+#define	STEP_NUMBER					(int)64
+#define MOVE_LENGTH_MAX			(float)34.5 //mm
 #define STEP_PITCH					(float)(SCREW_PITCH*ANGLE_STEP/360) //mm
 #define MICRO_STEP_PITCH		(float)(4*STEP_PITCH/STEP_NUMBER)
 #define STEP_NUM_MAX				(int)(MOVE_LENGTH_MAX/MICRO_STEP_PITCH)
 #define STEP_NUM_MIN				(int)0
 #define TIM_COUNTER_TIME		(int)10 //us
-#define STEP_TIME_MIN				(int)100//us
+#define STEP_TIME_MIN				(int)400//us
 
 #define STEPMOTOR1_PORT			GPIOB
 #define STEPMOTOR1_AL_PIN		GPIO_PIN_13

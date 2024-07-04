@@ -274,27 +274,3 @@ void stepmotor_move_xy(float x, float y)
 	while(stepmotor1.status == MOTOR_RUN || stepmotor2.status == MOTOR_RUN ){};
 }
 
-float dist(float x1, float y1, float x2, float y2)
-{
-	return sqrt( (x1-x2)*(x1-x2) + (y1-y2)*(y1-y2) );
-}
-
-void stepmotor_move_line(float x1, float y1, float x2, float y2)
-{
-	float x, y, Dx, Dy;
-	float x_div, y_div;
-	int d = dist(x1,y1,x2,y2);
-	Dx = x2-x1;
-	Dy = y2-y1;
-	x = x1;
-	y = y1;
-	x_div = 1.0*Dx/d;
-	y_div = 1.0*Dy/d;
-	stepmotor_move_xy(x, y);
-	for(int i=0; i < d; i++)
-	{
-		x+=x_div;
-		y+=y_div;
-		stepmotor_move_xy(x,y);
-	}
-}

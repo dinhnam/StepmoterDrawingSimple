@@ -259,13 +259,10 @@ int main(void)
 				servo_pen_release();
 				stepmotor_move_xy(x,y);
 				servo_pen_press();
-				stepmotor_move_line(x,y,x,y+h);
-				stepmotor_move_line(x,y+h,x+w,y+h);
-				stepmotor_move_line(x+w,y+h,x+w, y);
-				stepmotor_move_line(x+w,y,x, y);
-				x++;
-				y++;
-				
+				stepmotor_move_xy(x,y+h);
+				stepmotor_move_xy(x+w,y+h);
+				stepmotor_move_xy(x+w, y);
+				stepmotor_move_xy(x,y);
 				servo_pen_release();
 				stepmotor_move_xy(0,0);
 				printf("DONE\n");
@@ -281,7 +278,7 @@ int main(void)
 				servo_pen_release();
 				stepmotor_move_xy(x1,y1);
 				servo_pen_press();
-				stepmotor_move_line(x1,y1,x2,y2);
+				stepmotor_move_xy(x2,y2);
 				servo_pen_release();
 				stepmotor_move_xy(0,0);
 				printf("DONE\n");
@@ -306,7 +303,7 @@ int main(void)
 					a+=div;
 					float x2 = x0+r*cos(PI*a/180.0);
 					float y2 = y0+r*sin(PI*a/180.0);
-					stepmotor_move_line(x,y,x2,y2);
+					stepmotor_move_xy(x2,y2);
 					x=x2;
 					y=y2;
 				}
