@@ -71,7 +71,6 @@ void stepmotor_decrease_step(STEPMOTOR_STRUCT *stepmotor);
 void stepmotor_set_step_time(STEPMOTOR_STRUCT *stepmotor, float step_time_us);
 void stepmotor_set_step_change(STEPMOTOR_STRUCT *stepmotor, int step_div, float step_time);
 void stepmotor_set_step_num(STEPMOTOR_STRUCT *stepmotor, int step_count_set, float step_time);
-void stepmotor_set_rotate_direct(STEPMOTOR_STRUCT *stepmotor, DIRECT_TYPE rotate_direct);
 void stepmotor_step_start_it(STEPMOTOR_STRUCT *stepmotor);
 void stepmotor_step_stop_it(STEPMOTOR_STRUCT *stepmotor);
 void stepmotor_step_handle_it_update(STEPMOTOR_STRUCT *stepmotor);

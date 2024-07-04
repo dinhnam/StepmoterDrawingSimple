@@ -206,21 +206,21 @@ void stepmotor_init(void)
 	stepmotor2.step_count_set = 0;
 	stepmotor2.status = MOTOR_STOP;
 	
-	for(int i=1; i<STEPNUM; i++)
+	for(int i=1; i<=16; i++)
 	{
 		stepmotor_set_step(&stepmotor1, i);
 		stepmotor_set_step(&stepmotor2, i);
 		HAL_Delay(5);
 	}
-	for(int i=STEPNUM-1; i>=1; i--)
+	for(int i=16; i>=1; i--)
 	{
 		stepmotor_set_step(&stepmotor1, i);
 		stepmotor_set_step(&stepmotor2, i);
 		HAL_Delay(5);
 	}
-	//test
 	stepmotor_stop(&stepmotor1); 
 	stepmotor_stop(&stepmotor2);
+	//test
 	HAL_Delay(500);
 	stepmotor_set_step_num(&stepmotor1, stepmotor1.step_num_max , STEP_TIME_MIN);
 	stepmotor_set_step_num(&stepmotor2, stepmotor2.step_num_max, STEP_TIME_MIN);
