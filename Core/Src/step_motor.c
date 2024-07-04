@@ -96,7 +96,6 @@ void stepmotor_set_step_time(STEPMOTOR_STRUCT *stepmotor, float step_time_us)
 { 
 	if( step_time_us < STEP_TIME_MIN)  step_time_us = STEP_TIME_MIN;
 	stepmotor->timer->ARR = step_time_us/TIM_COUNTER_TIME;
-	stepmotor->timer->CCR1 = 3;
 }
 
 void stepmotor_step_start_it(STEPMOTOR_STRUCT *stepmotor)
@@ -149,11 +148,6 @@ void stepmotor_step_handle_it_update(STEPMOTOR_STRUCT *stepmotor)
 	{
 		stepmotor_step_stop_it(stepmotor);
 	}
-}
-
-void stepmotor_step_handle_it_cc(STEPMOTOR_STRUCT *stepmotor)
-{
-
 }
 
 void stepmotor_init(void)

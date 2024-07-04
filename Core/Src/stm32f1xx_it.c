@@ -234,12 +234,6 @@ void TIM3_IRQHandler(void)
 		stepmotor_step_handle_it_update(&stepmotor1);
 		TIM3->SR = ~TIM_IT_UPDATE;
   }
-	if ( (TIM3->SR  & TIM_IT_CC1) != RESET)
-  {
-		stepmotor_step_handle_it_cc(&stepmotor1);
-		TIM3->SR = ~TIM_IT_CC1;
-  }
-	
   /* USER CODE END TIM3_IRQn 1 */
 }
 
@@ -258,11 +252,6 @@ void TIM4_IRQHandler(void)
   {
 		stepmotor_step_handle_it_update(&stepmotor2);
 		TIM4->SR = ~TIM_IT_UPDATE;
-  }
-	if ( (TIM4->SR  & TIM_IT_CC1) != RESET)
-  {
-		stepmotor_step_handle_it_cc(&stepmotor2);
-		TIM4->SR = ~TIM_IT_CC1;
   }
   /* USER CODE END TIM4_IRQn 1 */
 }

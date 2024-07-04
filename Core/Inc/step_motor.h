@@ -42,33 +42,6 @@ typedef enum
 
 typedef enum
 {
-	STEP1 = 0,
-	STEP1A,
-	STEP2,
-	STEP2A,
-	STEP3,
-	STEP3A,
-	STEP4,
-	STEP4A,
-	STEP5,
-	STEP5A,
-	STEP6,
-	STEP6A,
-	STEP7,
-	STEP7A,
-	STEP8,
-	STEP8A,
-	STEPNUM
-}STEP_IDX;
-
-typedef enum
-{
-	ANTI_CLOCKWISE = 0,
-	CLOCKWISE = 1
-}DIRECT_TYPE;
-
-typedef enum
-{
 	MOTOR_STOP = 0,
 	MOTOR_RUN = 1
 }STEPMOTOR_STATUS;
@@ -101,9 +74,7 @@ void stepmotor_set_step_num(STEPMOTOR_STRUCT *stepmotor, int step_count_set, flo
 void stepmotor_set_rotate_direct(STEPMOTOR_STRUCT *stepmotor, DIRECT_TYPE rotate_direct);
 void stepmotor_step_start_it(STEPMOTOR_STRUCT *stepmotor);
 void stepmotor_step_stop_it(STEPMOTOR_STRUCT *stepmotor);
-void stepmotor_step_handle_it_cc(STEPMOTOR_STRUCT *stepmotor);
 void stepmotor_step_handle_it_update(STEPMOTOR_STRUCT *stepmotor);
 void stepmotor_init(void);
 void stepmotor_move_xy(float x, float y);
-void stepmotor_move_line(float x1, float y1, float x2, float y2);
 #endif
