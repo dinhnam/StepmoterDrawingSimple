@@ -294,18 +294,16 @@ int main(void)
 				
 				float x = x0+r*cos(0);
 				float y = y0+r*sin(0);
+				float a = 0;
 				servo_pen_release();
 				stepmotor_move_xy(x,y);
 				servo_pen_press();
-				float a = 0;
 				for(int i=0; i<n; i++)
 				{
 					a+=div;
-					float x2 = x0+r*cos(PI*a/180.0);
-					float y2 = y0+r*sin(PI*a/180.0);
-					stepmotor_move_xy(x2,y2);
-					x=x2;
-					y=y2;
+					x = x0+r*cos(PI*a/180.0);
+					y = y0+r*sin(PI*a/180.0);
+					stepmotor_move_xy(x,y);
 				}
 				servo_pen_release();
 				stepmotor_move_xy(0,0);
