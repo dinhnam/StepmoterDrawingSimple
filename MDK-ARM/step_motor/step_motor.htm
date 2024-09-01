@@ -3,7 +3,7 @@
 <title>Static Call Graph - [step_motor\step_motor.axf]</title></head>
 <body><HR>
 <H1>Static Call Graph for image step_motor\step_motor.axf</H1><HR>
-<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 5060960: Last Updated: Sun Sep 01 16:51:55 2024
+<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 5060960: Last Updated: Sun Sep 01 19:14:00 2024
 <BR><P>
 <H3>Maximum Stack Usage =        564 bytes + Unknown(Functions without stacksize, Cycles, Untraceable Function Pointers)</H3><H3>
 Call chain for Maximum Stack Depth:</H3>
@@ -1389,7 +1389,7 @@ Global Symbols
 <BR><BR>[Called By]<UL><LI><a href="#[f0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;UART_SendByte
 </UL>
 
-<P><STRONG><a name="[39]"></a>USART1_IRQHandler</STRONG> (Thumb, 36 bytes, Stack size 8 bytes, stm32f1xx_it.o(i.USART1_IRQHandler))
+<P><STRONG><a name="[39]"></a>USART1_IRQHandler</STRONG> (Thumb, 34 bytes, Stack size 8 bytes, stm32f1xx_it.o(i.USART1_IRQHandler))
 <BR><BR>[Stack]<UL><LI>Max Depth = 8<LI>Call Chain = USART1_IRQHandler
 </UL>
 <BR>[Calls]<UL><LI><a href="#[ee]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;UART_ReceiveFunctionCallBack
@@ -1612,7 +1612,7 @@ Global Symbols
 <BR>[Called By]<UL><LI><a href="#[9c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__support_ldexp
 </UL>
 
-<P><STRONG><a name="[5c]"></a>main</STRONG> (Thumb, 102 bytes, Stack size 0 bytes, main.o(i.main))
+<P><STRONG><a name="[5c]"></a>main</STRONG> (Thumb, 98 bytes, Stack size 0 bytes, main.o(i.main))
 <BR><BR>[Stack]<UL><LI>Max Depth = 564<LI>Call Chain = main &rArr; Command_read &rArr; atof &rArr; __strtod_int &rArr; _local_sscanf &rArr; _scanf_real &rArr; _scanf_really_real &rArr; _fp_value &rArr; _btod_etento &rArr; _btod_emul &rArr; _e2e
 </UL>
 <BR>[Calls]<UL><LI><a href="#[e0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_UART_Init
@@ -1708,7 +1708,7 @@ Global Symbols
 <BR>[Called By]<UL><LI><a href="#[ed]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;stepmotor_step_handle_it_update
 </UL>
 
-<P><STRONG><a name="[10b]"></a>stepmotor_init</STRONG> (Thumb, 406 bytes, Stack size 48 bytes, step_motor.o(i.stepmotor_init))
+<P><STRONG><a name="[10b]"></a>stepmotor_init</STRONG> (Thumb, 404 bytes, Stack size 48 bytes, step_motor.o(i.stepmotor_init))
 <BR><BR>[Stack]<UL><LI>Max Depth = 240<LI>Call Chain = stepmotor_init &rArr; sin &rArr; __ieee754_rem_pio2 &rArr; __aeabi_dmul
 </UL>
 <BR>[Calls]<UL><LI><a href="#[c2]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_Delay

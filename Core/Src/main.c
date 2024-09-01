@@ -252,8 +252,6 @@ int main(void)
 	printf("CNC Mini Starting..\n");
 	servo_init();
 	stepmotor_init();
-	HAL_Delay(200);
-	
   while (1)
   {
 		Command_read();

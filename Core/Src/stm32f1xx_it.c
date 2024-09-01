@@ -264,7 +264,6 @@ void USART1_IRQHandler(void)
   /* USER CODE BEGIN USART1_IRQn 0 */
 	if(__HAL_UART_GET_FLAG(&huart1, UART_FLAG_RXNE) != RESET)
 	{
-		uint8_t data = ((USART1->DR & 0x00FF));
 		UART_ReceiveFunctionCallBack(USART1->DR & 0x00FF);
 		__HAL_UART_CLEAR_FLAG(&huart1, UART_FLAG_RXNE);
 	}
