@@ -6,6 +6,7 @@
 STEPMOTOR_STRUCT stepmotor1, stepmotor2;
 int sinValue[STEP_NUMBER];
 int cosValue[STEP_NUMBER];
+float step_interval = STEP_TIME_MIN;
 
 void AHL(STEPMOTOR_STRUCT *stepmotor, uint16_t pwm_duty)
 {
@@ -100,7 +101,7 @@ void stepmotor_set_step_time(STEPMOTOR_STRUCT *stepmotor, float step_time_us)
 
 void stepmotor_step_start_it(STEPMOTOR_STRUCT *stepmotor)
 {
-	stepmotor->timer->CNT = 0;
+	stepmotor->timer->CNT = stepmotor->timer->ARR;
 	stepmotor->timer->DIER |= TIM_IT_UPDATE;
 	stepmotor->timer->CR1 |= TIM_CR1_CEN;
 	stepmotor->status = MOTOR_RUN;
@@ -115,13 +116,14 @@ void stepmotor_step_stop_it(STEPMOTOR_STRUCT *stepmotor)
 
 void stepmotor_set_step_num(STEPMOTOR_STRUCT *stepmotor, int step_count_set, float step_time)
 {
-	if( step_count_set > stepmotor->step_num_max) step_count_set = stepmotor->step_num_max;
-	if( step_count_set < stepmotor->step_num_min) step_count_set = stepmotor->step_num_min;
-	stepmotor->step_count_set = step_count_set;
-	stepmotor_set_step_time(stepmotor, step_time);
-	if(stepmotor->step_count_set != stepmotor->step_count)
+	if( step_count_set != stepmotor->step_count_set)
 	{
-		stepmotor_step_start_it(stepmotor);
+		stepmotor->step_count_set = step_count_set;
+		stepmotor_set_step_time(stepmotor, step_time);
+		if(stepmotor->step_count_set != stepmotor->step_count)
+		{
+			stepmotor_step_start_it(stepmotor);
+		}
 	}
 }
 
@@ -182,8 +184,6 @@ void stepmotor_init(void)
 	stepmotor1.pwm_tim = TIM1;
 	stepmotor1.pwm_channel[PWM_A1] = TIM_CHANNEL_2;
 	stepmotor1.pwm_channel[PWM_B1] = TIM_CHANNEL_1;
-	stepmotor1.step_num_max = STEP_NUM_MAX;
-	stepmotor1.step_num_min = 0;
 	stepmotor1.step_pitch = MICRO_STEP_PITCH;
 	
 	stepmotor2.id = 2;
@@ -194,8 +194,6 @@ void stepmotor_init(void)
 	stepmotor2.pwm_tim = TIM1;
 	stepmotor2.pwm_channel[PWM_A1] = PWM2_AH_CHANNEL;
 	stepmotor2.pwm_channel[PWM_B1] = PWM2_BH_CHANNEL;
-	stepmotor2.step_num_max = STEP_NUM_MAX;
-	stepmotor2.step_num_min = 0;
 	stepmotor2.step_pitch = MICRO_STEP_PITCH;
 	
 	stepmotor1.step_count = 0;
@@ -206,43 +204,27 @@ void stepmotor_init(void)
 	stepmotor2.step_count_set = 0;
 	stepmotor2.status = MOTOR_STOP;
 	
-	for(int i=1; i<=16; i++)
-	{
-		stepmotor_set_step(&stepmotor1, i);
-		stepmotor_set_step(&stepmotor2, i);
-		HAL_Delay(5);
-	}
-	for(int i=16; i>=1; i--)
-	{
-		stepmotor_set_step(&stepmotor1, i);
-		stepmotor_set_step(&stepmotor2, i);
-		HAL_Delay(5);
-	}
+	stepmotor_set_step(&stepmotor1, 0);
+	stepmotor_set_step(&stepmotor2, 0);
+	HAL_Delay(10);
 	stepmotor_stop(&stepmotor1); 
 	stepmotor_stop(&stepmotor2);
 	//test
 	HAL_Delay(500);
-	stepmotor_set_step_num(&stepmotor1, stepmotor1.step_num_max , STEP_TIME_MIN);
-	stepmotor_set_step_num(&stepmotor2, stepmotor2.step_num_max, STEP_TIME_MIN);
-	while(stepmotor1.status == MOTOR_RUN || stepmotor2.status == MOTOR_RUN ){};
-	stepmotor_set_step_num(&stepmotor1, stepmotor1.step_num_min, STEP_TIME_MIN);
-	stepmotor_set_step_num(&stepmotor2, stepmotor2.step_num_min, STEP_TIME_MIN);
-	while(stepmotor1.status == MOTOR_RUN || stepmotor2.status == MOTOR_RUN ){};
+	stepmotor_move_xy(MOVE_LENGTH_MAX,MOVE_LENGTH_MAX);
+	HAL_Delay(500);
+	stepmotor_move_xy(0,0);
 }
 
 
 void stepmotor_move_xy(float x, float y)
 {
-	if(x > MOVE_LENGTH_MAX) x = MOVE_LENGTH_MAX;
-	if(y > MOVE_LENGTH_MAX) y = MOVE_LENGTH_MAX;
-	if(x < 0) x = 0;
-	if(y < 0) y = 0;
 	int step1_num = x/stepmotor1.step_pitch;
 	int step2_num = y/stepmotor2.step_pitch;
 	
 	float step1_diff = step1_num - stepmotor1.step_count;
 	float step2_diff = step2_num - stepmotor2.step_count;
-	float step_time1 = STEP_TIME_MIN, step_time2 = STEP_TIME_MIN;
+	float step_time1 = step_interval, step_time2 = step_interval;
 	
 	step1_diff = step1_diff<0?-step1_diff:step1_diff;
 	step2_diff = step2_diff<0?-step2_diff:step2_diff;

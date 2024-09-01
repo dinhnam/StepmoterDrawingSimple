@@ -72,97 +72,147 @@ static void MX_TIM4_Init(void);
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
 
-char bufferRx[256];
-uint8_t commandReady = 0;
-int 	RxIdx = 0;
-char  cmdType[16];
-float param_value[4];
-uint8_t pen_ctrl = 0;
+#define RX_BUFFER_SIZE  64
+__IO uint8_t cmd[RX_BUFFER_SIZE];
+__IO uint8_t write_index = 0;
+__IO uint8_t cmd_ready = 0;
+char param_str[10][10];
 
-void coppyString(char *str_s, uint8_t index1, uint8_t index2, char *str_d)
+void Command_ReceiveData(uint8_t data)
 {
-	int n = 0;
-	for(int i=index1; i<index2; i++)
+	if(write_index >= RX_BUFFER_SIZE) 
 	{
-		str_d[n] = str_s[i];
-		n++;
+		write_index = 0;
+	}
+	cmd[write_index] = data;
+	write_index++;
+	if(data == '\n')
+	{
+		cmd_ready = 1;
 	}
 }
 
-int indexOfChar(char *str, int index_s, char ch)
+void Command_clear(void)
 {
-	int i=index_s;
-	while(str[i] != 0)
+	for(int i=0; i<RX_BUFFER_SIZE; i++)
 	{
-		if(str[i] == ch)
-		{
-			return i;
-		}
-		i++;
+		cmd[i] = 0;
 	}
-	return -1;
+	write_index = 0;
 }
 
-void extracParameter(void)
+void Params_clear(void)
 {
-	int idx1 = indexOfChar(bufferRx, 0, ' ');
-	char param1[16];
-	char param2[16];
-	char param3[16];
-	char param4[16];
-	memset(param1, 0, 16);
-	memset(param2, 0, 16);
-	memset(param3, 0, 16);
-	memset(param4, 0, 16);
-	if(idx1 != -1)
+	for(int i=0; i<10; i++)
 	{
-		coppyString(bufferRx, 0, idx1, cmdType);
-		if((strcmp(cmdType, "MSTEP") == 0) || strcmp(cmdType, "MXY") == 0)
+		for(int k=0; k<10; k++)
 		{
-			int idx2 = indexOfChar(bufferRx, idx1+1, ' ');
-			int idx3 = indexOfChar(bufferRx, idx2+1, '\n');
-			coppyString(bufferRx, idx1+1, idx2, param1);
-			coppyString(bufferRx, idx2+1, idx3, param2);
-			param_value[0] = atof(param1);
-			param_value[1] = atof(param2);
-		}
-		else
-		if(strcmp(cmdType, "PEN") == 0)
-		{
-			int idx2 = indexOfChar(bufferRx, idx1+1, '\n');
-			coppyString(bufferRx, idx1+1, idx2, param1);
-			param_value[0] = atof(param1);
-		}
-		else
-		if(strcmp(cmdType, "LINE") == 0 || strcmp(cmdType, "RECT") == 0 || strcmp(cmdType, "CIRCLE") == 0)
-		{
-			int idx2 = indexOfChar(bufferRx, idx1+1, ' ');
-			int idx3 = indexOfChar(bufferRx, idx2+1, ' ');
-			int idx4 = indexOfChar(bufferRx, idx3+1, ' ');
-			int idx5 = indexOfChar(bufferRx, idx4+1, '\n');
-			coppyString(bufferRx, idx1+1, idx2, param1);
-			coppyString(bufferRx, idx2+1, idx3, param2);
-			coppyString(bufferRx, idx3+1, idx4, param3);
-			coppyString(bufferRx, idx4+1, idx5, param4);
-			param_value[0] = atof(param1);
-			param_value[1] = atof(param2);
-			param_value[2] = atof(param3);
-			param_value[3] = atof(param4);
+			param_str[i][k] = 0;
 		}
 	}
-	memset(bufferRx, 0, 256);
+}
+
+void extrac_param(void)
+{
+	Params_clear();
+	uint8_t idx_s = 0;
+	uint8_t n = 0;
+	for(int i=0; i<write_index;i++)
+	{
+		if(cmd[i] == ' ' || cmd[i] == '\n')
+		{
+			idx_s = i;
+			n++;
+		}
+		param_str[n][i - idx_s] = cmd[i];
+	}
+}
+
+void Command_read(void)
+{
+	if(cmd_ready == 1)
+	{
+		extrac_param();
+		if(cmd[0] == 'M')
+		{
+			float x = atof(param_str[1]);
+			float y = atof(param_str[2]);
+			stepmotor_move_xy(x,y);
+			HAL_UART_Transmit(&huart1, (uint8_t*)"DONE\n", 5, 10);
+		}
+		if(cmd[0] == 'P')
+		{
+			int p = atof(param_str[1]);
+			if(p == 0)
+			{				
+				servo_pen_release();
+			}
+			else
+			{
+				servo_pen_press();
+			}
+		}
+		if(cmd[0] == 'S')
+		{
+			float speed = atof(param_str[1]);
+			step_interval = 1000000.0*(MICRO_STEP_PITCH)/speed;
+		}
+		if(cmd[0] == 'R')
+		{
+			float x = atof(param_str[1]);
+			float y = atof(param_str[2]);
+			float w = atof(param_str[3]);
+			float h = atof(param_str[4]);
+			stepmotor_move_xy(x,y);
+			servo_pen_press();
+			stepmotor_move_xy(x+w,y);
+			stepmotor_move_xy(x+w,y+h);
+			stepmotor_move_xy(x,y+h);
+			stepmotor_move_xy(x,y);
+			servo_pen_release();
+			stepmotor_move_xy(0,0);
+		}
+		if(cmd[0] == 'C')
+		{
+			float x0 = atof(param_str[1]);
+			float y0 = atof(param_str[2]);
+			float r = atof(param_str[3]);
+			float n = atof(param_str[4]);
+			float div = 360/n;
+			
+			float x = x0+r*cos(0);
+			float y = y0+r*sin(0);
+			float a = 0;
+			servo_pen_release();
+			stepmotor_move_xy(x,y);
+			servo_pen_press();
+			for(int i=0; i<n; i++)
+			{
+				a+=div;
+				x = x0+r*cos(PI*a/180.0);
+				y = y0+r*sin(PI*a/180.0);
+				stepmotor_move_xy(x,y);
+			}
+			servo_pen_release();
+			stepmotor_move_xy(0,0);
+		}
+		HAL_UART_Transmit(&huart1, (uint8_t*)"DONE\n", 5, 10);
+		Command_clear();
+		cmd_ready = 0;
+	}
 }
 
 void UART_ReceiveFunctionCallBack(uint8_t data)
 {
-	bufferRx[RxIdx] = data;
-	RxIdx++;
-	if(RxIdx > 255) RxIdx = 255;
+	if(write_index >= RX_BUFFER_SIZE) 
+	{
+		write_index = 0;
+	}
+	cmd[write_index] = data;
+	write_index++;
 	if(data == '\n')
 	{
-		extracParameter();
-		commandReady = 1;
-		RxIdx = 0;
+		cmd_ready = 1;
 	}
 }
 
@@ -212,106 +262,10 @@ int main(void)
 	servo_init();
 	stepmotor_init();
 	HAL_Delay(200);
-	memset(bufferRx, 0, 256);
 	
   while (1)
   {
-		if(commandReady == 1)
-		{
-			if(strcmp(cmdType, "MSTEP") == 0)
-			{
-				float step1_div = param_value[0];
-				float step2_div = param_value[1];
-				stepmotor_set_step_change(&stepmotor1, step1_div, STEP_TIME_MIN);
-				stepmotor_set_step_change(&stepmotor2, step2_div, STEP_TIME_MIN);
-				printf("DONE\n");
-			}
-			else
-			if(strcmp(cmdType, "MXY") == 0)
-			{
-				float x = param_value[0];
-				float y = param_value[1];
-				stepmotor_move_xy(x,y); 
-				printf("DONE\n");
-			}
-			else
-			if(strcmp(cmdType, "PEN") == 0)
-			{
-				pen_ctrl = param_value[0];
-				if(pen_ctrl == 0)
-				{
-					servo_pen_release();
-				}
-				else
-				{
-					servo_pen_press();
-				}
-				printf("DONE\n");
-			}
-			else
-			if(strcmp(cmdType, "RECT") == 0)
-			{
-				float x = param_value[0];
-				float y = param_value[1];
-				float w = param_value[2];
-				float h = param_value[3];
-	
-				servo_pen_release();
-				stepmotor_move_xy(x,y);
-				servo_pen_press();
-				stepmotor_move_xy(x,y+h);
-				stepmotor_move_xy(x+w,y+h);
-				stepmotor_move_xy(x+w, y);
-				stepmotor_move_xy(x,y);
-				servo_pen_release();
-				stepmotor_move_xy(0,0);
-				printf("DONE\n");
-			}
-			else
-			if(strcmp(cmdType, "LINE") == 0)
-			{
-				float x1 = param_value[0];
-				float y1 = param_value[1];
-				float x2 = param_value[2];
-				float y2 = param_value[3];
-				
-				servo_pen_release();
-				stepmotor_move_xy(x1,y1);
-				servo_pen_press();
-				stepmotor_move_xy(x2,y2);
-				servo_pen_release();
-				stepmotor_move_xy(0,0);
-				printf("DONE\n");
-			}
-			else
-			if(strcmp(cmdType, "CIRCLE") == 0)
-			{
-				float x0 = param_value[0];
-				float y0 = param_value[1];
-				float r = param_value[2];
-				float n = param_value[3];
-				float div = 360/n;
-				
-				float x = x0+r*cos(0);
-				float y = y0+r*sin(0);
-				float a = 0;
-				servo_pen_release();
-				stepmotor_move_xy(x,y);
-				servo_pen_press();
-				for(int i=0; i<n; i++)
-				{
-					a+=div;
-					x = x0+r*cos(PI*a/180.0);
-					y = y0+r*sin(PI*a/180.0);
-					stepmotor_move_xy(x,y);
-				}
-				servo_pen_release();
-				stepmotor_move_xy(0,0);
-				printf("DONE\n");
-			}
-			commandReady = 0;
-			memset(cmdType, 0, 16);
-		}
+		Command_read();
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */

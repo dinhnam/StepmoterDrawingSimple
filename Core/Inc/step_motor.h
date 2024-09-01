@@ -6,14 +6,14 @@
 #define PI									(float)3.14159265
 #define ANGLE_STEP					(float)18 //degree
 #define SCREW_PITCH					(float)4 //mm
-#define	STEP_NUMBER					(int)64
-#define MOVE_LENGTH_MAX			(float)34.5 //mm
+#define	STEP_NUMBER					(int)32
+#define MOVE_LENGTH_MAX			(float)34 //mm
 #define STEP_PITCH					(float)(SCREW_PITCH*ANGLE_STEP/360) //mm
 #define MICRO_STEP_PITCH		(float)(4*STEP_PITCH/STEP_NUMBER)
 #define STEP_NUM_MAX				(int)(MOVE_LENGTH_MAX/MICRO_STEP_PITCH)
 #define STEP_NUM_MIN				(int)0
 #define TIM_COUNTER_TIME		(int)10 //us
-#define STEP_TIME_MIN				(int)400//us
+#define STEP_TIME_MIN				(int)2000//us
 
 #define STEPMOTOR1_PORT			GPIOB
 #define STEPMOTOR1_AL_PIN		GPIO_PIN_13
@@ -58,11 +58,10 @@ typedef struct{
 	int 					step_count;
 	int 					step_count_set;
 	float					step_pitch;
-	int 					step_num_max;
-	int 					step_num_min;
 }STEPMOTOR_STRUCT;
 
 extern STEPMOTOR_STRUCT stepmotor1, stepmotor2;
+extern float step_interval;
 
 void stepmotor_step_stop(STEPMOTOR_STRUCT *stepmotor);
 void stepmotor_set_step(STEPMOTOR_STRUCT *stepmotor, int step);
