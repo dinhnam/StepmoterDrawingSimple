@@ -204,16 +204,7 @@ void Command_read(void)
 
 void UART_ReceiveFunctionCallBack(uint8_t data)
 {
-	if(write_index >= RX_BUFFER_SIZE) 
-	{
-		write_index = 0;
-	}
-	cmd[write_index] = data;
-	write_index++;
-	if(data == '\n')
-	{
-		cmd_ready = 1;
-	}
+	Command_ReceiveData(data);
 }
 
 /* USER CODE END 0 */
